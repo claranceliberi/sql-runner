@@ -1,0 +1,38 @@
+flow
+
+ - enter query and view result set
+ - run any query and return its corresponding data set
+ - toggle between save queries (we must have  some saved queries and their corresponding data)
+ - 
+
+ Useful things
+ - saved query
+ - history of queries
+ - space to run query
+ - show values
+
+
+ # useful components
+ 1. saved query
+    - search in saved query
+    - toggle saved query
+ 2. history 
+    must show
+        - query run
+        - time 
+        - time ago
+    search in history
+    toggle history
+
+ 3. run query
+        - option to clear whole editor
+
+        - run query button
+        - CTRL + ENTER to run query
+ 4. table
+    - toggle table
+    must be 
+    - sortable
+    - show elapsed time to query to retrieve resultset
+    - full screen table
+
