@@ -86,7 +86,11 @@ function search(query: string) {
           </svg>
         </TheIcon>
       </button>
-      <SavedQueries :databases="database" v-if="isSidebarActive.savedQueries" />
+      <SavedQueries
+        :databases="database"
+        @rerun="(q) => (query = q)"
+        v-if="isSidebarActive.savedQueries"
+      />
     </aside>
     <!-- editor section -->
     <article class="flex-1 py-2 flex-col">
@@ -149,7 +153,7 @@ function search(query: string) {
             name=""
             id=""
             v-model="query"
-            placeholder="SELECT * FROM locations"
+            placeholder="SELECT * FROM tableName"
           ></textarea>
         </div>
       </div>

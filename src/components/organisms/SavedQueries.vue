@@ -12,6 +12,10 @@ type prop = {
 };
 
 const props = defineProps<prop>();
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (e: "rerun", query: string): void;
+}>();
 </script>
 
 <template>
@@ -44,6 +48,7 @@ const props = defineProps<prop>();
     <hr class="mt-3 border-primary-600" />
     <ol class="mt-4">
       <li
+        @click="emits('rerun', query.query)"
         class="py-1 hover:bg-primary-200 pl-1 cursor-pointer"
         v-for="query in props.databases"
         :key="query.query"
