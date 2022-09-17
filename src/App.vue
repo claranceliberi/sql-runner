@@ -6,12 +6,34 @@ import SavedQueries from "./components/organisms/SavedQueries.vue";
 
 import { database } from "./data";
 
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
+import type { Location, User, Vehicle } from "./types";
 
+type resultType = Vehicle[] | Location[] | User[];
 const isSidebarActive = reactive({
   savedQueries: true,
   history: true,
 });
+
+const query = ref("");
+const results = ref<resultType>();
+const headerValue = ref<Array<string>>([]);
+const message = ref("");
+
+function search(query: string) {
+  if (query === "" || !query) {
+    message.value = "Please enter a query";
+    return;
+  }
+
+  results.value = database.find((db) => db.query === query)?.data;
+  if (results.value) {
+    headerValue.value = Object.keys(results.value[0]);
+    message.value = "";
+  } else {
+    message.value = "No results found";
+  }
+}
 </script>
 
 <template>
@@ -61,6 +83,7 @@ const isSidebarActive = reactive({
           <div>
             <button
               class="bg-sky-500 px-4 space-x-2 mb-1 py-2 rounded hover:bg-sky-600 flex items-center"
+              @click="search(query)"
             >
               <!-- eslint-disable-next-line prettier/prettier -->
               <TheIcon ><svg
@@ -89,62 +112,50 @@ const isSidebarActive = reactive({
             class="bg-transparent w-full h-full box-border outline-none resize-none px-2"
             name=""
             id=""
-          >
-SELECT * FROM WHERE 
-</textarea
-          >
+            v-model="query"
+          ></textarea>
         </div>
       </div>
       <div class="h-1/2 px-2 border-t-primary-600 border-t-2">
         <TheHeader>Output</TheHeader>
         <hr class="mt-3 border-primary-600" />
 
-        <div class="overflow-x-auto relative">
-          <table class="w-full text-sm text-left text-text">
-            <thead class="text-xs text-text uppercase bg-primary-200">
+        <div class="overflow-x-auto h-[90%] relative">
+          <table
+            class="w-full text-sm text-left text-text h-full overflow-y-auto"
+            v-if="results && results.length > 0"
+          >
+            <thead
+              class="text-xs text-text uppercase bg-primary-200 sticky top-0"
+            >
               <tr>
-                <th scope="col" class="py-3 px-6">Product name</th>
-                <th scope="col" class="py-3 px-6">Color</th>
-                <th scope="col" class="py-3 px-6">Category</th>
-                <th scope="col" class="py-3 px-6">Price</th>
+                <th
+                  scope="col"
+                  class="py-3 px-6"
+                  v-for="head in headerValue"
+                  :key="head"
+                >
+                  {{ head }}
+                </th>
               </tr>
             </thead>
-            <tbody>
-              <tr class="bg-transparent border-b border-primary-500">
-                <th
-                  scope="row"
-                  class="py-4 px-6 font-medium text-text whitespace-nowrap"
+            <tbody class="">
+              <tr
+                class="bg-transparent border-b border-primary-500"
+                v-for="row in results"
+                :key="row.id"
+              >
+                <td
+                  class="py-4 px-6"
+                  v-for="colName in headerValue"
+                  :key="row.id + colName"
                 >
-                  Apple MacBook Pro 17"
-                </th>
-                <td class="py-4 px-6">Sliver</td>
-                <td class="py-4 px-6">Laptop</td>
-                <td class="py-4 px-6">$2999</td>
-              </tr>
-              <tr class="bg-transparent border-b border-primary-500">
-                <th
-                  scope="row"
-                  class="py-4 px-6 font-medium text-text whitespace-nowrap"
-                >
-                  Microsoft Surface Pro
-                </th>
-                <td class="py-4 px-6">White</td>
-                <td class="py-4 px-6">Laptop PC</td>
-                <td class="py-4 px-6">$1999</td>
-              </tr>
-              <tr class="bg-transparent">
-                <th
-                  scope="row"
-                  class="py-4 px-6 font-medium text-text whitespace-nowrap"
-                >
-                  Magic Mouse 2
-                </th>
-                <td class="py-4 px-6">Black</td>
-                <td class="py-4 px-6">Accessories</td>
-                <td class="py-4 px-6">$99</td>
+                  {{ row[colName] }}
+                </td>
               </tr>
             </tbody>
           </table>
+          <p v-else class="text-center pt-10">{{ message }}</p>
         </div>
       </div>
     </article>
@@ -179,9 +190,30 @@ SELECT * FROM WHERE
     </aside>
   </main>
   <!-- footer -->
-  <footer class="border-t-primary-600 border-t-2">
+  <footer class="border-t-primary-600 bg-primary-100 z-10 border-t-2">
     <p class="text-center py-2">SQL runner @ 2022</p>
   </footer>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+  @apply rounded;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-500 rounded;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-600;
+}
+</style>
