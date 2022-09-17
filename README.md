@@ -24,5 +24,5 @@ No. | Time | comment
 5 | 309 ms |
 
 ## Optimization
-    - [x] I changed the `RUN` button color to ensure good accessibility   
-    - [x] I  added meta `description` to ensure high SEO score
+ - [x] I changed the `RUN` button color to ensure good accessibility   
+ - [x] I  added meta `description` to ensure high SEO score
