@@ -66,6 +66,7 @@ function search(query: string) {
       :class="{ 'w-1/6': isSidebarActive.savedQueries }"
     >
       <button
+        title="Toggle Saved Queries"
         class="rounded border-primary-600 border bg-primary-100 absolute -right-2 top-16"
         :class="{ 'rotate-180': !isSidebarActive.savedQueries }"
         @click="isSidebarActive.savedQueries = !isSidebarActive.savedQueries"
@@ -259,6 +260,7 @@ function search(query: string) {
       :class="{ 'w-1/6': isSidebarActive.history }"
     >
       <button
+        title="Toggle history"
         class="rounded border-primary-600 border bg-primary-100 absolute -left-3 top-16"
         :class="{ 'rotate-180': !isSidebarActive.history }"
         @click="isSidebarActive.history = !isSidebarActive.history"
