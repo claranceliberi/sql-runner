@@ -9,6 +9,7 @@ export interface Vehicle {
   id: number;
   name: string;
   model: string;
+
   year: number;
 }
 
@@ -19,8 +20,6 @@ export interface Location {
   city: string;
   state: string;
 }
-
-// generate 44 locations based on the interface above
 
 export interface Database<T> {
   query: string;

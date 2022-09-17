@@ -7,7 +7,7 @@ flow
 
  Useful things
  - saved query ✅
- - history of queries 
+ - history of queries ✅
  - space to run query ✅
  - show values ✅
 
@@ -20,19 +20,19 @@ flow
     must show ✅
         - query run
         - time 
-        - time ago
+        - time ago ✅
     search in history
     toggle history
 
  3. run query
         - option to clear whole editor ✅
 
-        - run query button
-        - CTRL + ENTER to run query
+        - run query button ✅
+        - CTRL + ENTER to run query ✅
  4. table
-    - toggle table
+    - toggle table ✅
     must be 
     - sortable
     - show elapsed time to query to retrieve resultset
-    - full screen table
+    - full screen table ✅
 

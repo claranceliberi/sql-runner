@@ -62,7 +62,7 @@ function search(query: string) {
   <main class="flex h-[85%]">
     <!-- saved section -->
     <aside
-      class="border-r-primary-600 border-r-2 px-2 py-2 relative"
+      class="border-r-primary-600 border-r-2 px-2 py-2 relative hidden md:block"
       :class="{ 'w-1/6': isSidebarActive.savedQueries }"
     >
       <button
@@ -124,7 +124,7 @@ function search(query: string) {
             </button>
             <button
               title="run (CTRL+ENTER)"
-              class="bg-sky-500 px-4 space-x-2 mb-1 py-2 rounded hover:bg-sky-600 flex items-center"
+              class="bg-pink-700 px-4 space-x-2 mb-1 py-2 rounded hover:bg-pink-800 flex items-center"
               @click="search(query)"
             >
               <!-- eslint-disable-next-line prettier/prettier -->
@@ -210,6 +210,7 @@ function search(query: string) {
         </div>
         <hr class="mt-3 border-primary-600" />
 
+        <!-- result table -->
         <div class="overflow-x-auto h-[88%] relative">
           <table
             class="w-full text-sm text-left text-text h-full overflow-y-auto"
@@ -240,7 +241,10 @@ function search(query: string) {
                   v-for="colName in headerValue"
                   :key="row.id + colName"
                 >
-                  {{ row[colName] }}
+                  {{
+                    // @ts-ignore
+                    row[colName]
+                  }}
                 </td>
               </tr>
             </tbody>
@@ -251,7 +255,7 @@ function search(query: string) {
     </article>
     <!-- history section -->
     <aside
-      class="px-2 py-2 border-l-primary-600 border-l-2 relative"
+      class="px-2 py-2 border-l-primary-600 border-l-2 relative hidden md:block"
       :class="{ 'w-1/6': isSidebarActive.history }"
     >
       <button

@@ -46,7 +46,7 @@ const emits = defineEmits<{
       </span>
     </TheHeader>
     <hr class="mt-3 border-primary-600" />
-    <ol class="mt-4">
+    <ol class="mt-4 list-decimal">
       <li
         @click="emits('rerun', query.query)"
         class="py-1 hover:bg-primary-200 pl-1 cursor-pointer"

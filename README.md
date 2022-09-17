@@ -9,3 +9,5 @@ overview
 ## Page load time
 
 ## Optimization
+    - [x] I changed the `RUN` button color to ensure good accessibility   
+    - [x] I  added meta `description` to ensure high SEO score
