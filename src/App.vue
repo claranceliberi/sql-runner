@@ -102,7 +102,7 @@ function search(query: string) {
             <TheHeader>Input</TheHeader>
           </div>
           <div class="flex items-center space-x-4">
-            <button title="clear" @click="query = ''">
+            <button title="clear (CTRL+DELETE)" @click="query = ''">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -122,6 +122,7 @@ function search(query: string) {
               </svg>
             </button>
             <button
+              title="run (CTRL+ENTER)"
               class="bg-sky-500 px-4 space-x-2 mb-1 py-2 rounded hover:bg-sky-600 flex items-center"
               @click="search(query)"
             >
@@ -154,6 +155,8 @@ function search(query: string) {
             id=""
             v-model="query"
             placeholder="SELECT * FROM tableName"
+            @keyup.ctrl.enter="search(query)"
+            @keyup.ctrl.delete="query = ''"
           ></textarea>
         </div>
       </div>

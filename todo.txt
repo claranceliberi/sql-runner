@@ -15,9 +15,9 @@ flow
  # useful components
  1. saved query
     - search in saved query
-    - toggle saved query
+    - toggle saved query ✅
  2. history 
-    must show
+    must show ✅
         - query run
         - time 
         - time ago
@@ -25,7 +25,7 @@ flow
     toggle history
 
  3. run query
-        - option to clear whole editor
+        - option to clear whole editor ✅
 
         - run query button
         - CTRL + ENTER to run query
