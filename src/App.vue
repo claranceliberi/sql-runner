@@ -9,7 +9,13 @@ import { database } from "./data";
 import { reactive, ref } from "vue";
 import type { Location, User, Vehicle } from "./types";
 
-type resultType = Vehicle[] | Location[] | User[];
+type resultType = Array<Location | Vehicle | User>;
+type keys = keyof Location | keyof Vehicle | keyof User;
+type historyType = {
+  query: string;
+  date: string;
+};
+
 const isSidebarActive = reactive({
   savedQueries: true,
   history: true,
@@ -17,8 +23,9 @@ const isSidebarActive = reactive({
 
 const query = ref("");
 const results = ref<resultType>();
-const headerValue = ref<Array<string>>([]);
+const headerValue = ref<Array<keys>>([]);
 const message = ref("");
+const history = ref<Array<historyType>>([]);
 
 function search(query: string) {
   if (query === "" || !query) {
@@ -26,9 +33,19 @@ function search(query: string) {
     return;
   }
 
-  results.value = database.find((db) => db.query === query)?.data;
+  // search
+  results.value = database.find(
+    (db) => db.query.toLowerCase() === query.toLowerCase()
+  )?.data;
+
+  // save in history
+  history.value.unshift({
+    query: query,
+    date: new Date().toLocaleString(),
+  });
+
   if (results.value) {
-    headerValue.value = Object.keys(results.value[0]);
+    headerValue.value = Object.keys(results.value[0]) as Array<keys>;
     message.value = "";
   } else {
     message.value = "No results found";
@@ -80,7 +97,26 @@ function search(query: string) {
           >
             <TheHeader>Input</TheHeader>
           </div>
-          <div>
+          <div class="flex items-center space-x-4">
+            <button title="clear" @click="query = ''">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-trash"
+              >
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path
+                  d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                ></path>
+              </svg>
+            </button>
             <button
               class="bg-sky-500 px-4 space-x-2 mb-1 py-2 rounded hover:bg-sky-600 flex items-center"
               @click="search(query)"
@@ -109,10 +145,11 @@ function search(query: string) {
           class="bg-primary-300 h-[85%] rounded-b rounded-tr border border-primary-600"
         >
           <textarea
-            class="bg-transparent w-full h-full box-border outline-none resize-none px-2"
+            class="bg-transparent w-full h-full box-border outline-none resize-none p-2"
             name=""
             id=""
             v-model="query"
+            placeholder="SELECT * FROM locations"
           ></textarea>
         </div>
       </div>
@@ -186,7 +223,7 @@ function search(query: string) {
           </svg>
         </TheIcon>
       </button>
-      <TheHistory v-if="isSidebarActive.history" />
+      <TheHistory v-if="isSidebarActive.history" :history="history" />
     </aside>
   </main>
   <!-- footer -->

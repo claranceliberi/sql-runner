@@ -6,10 +6,10 @@ flow
  - 
 
  Useful things
- - saved query
- - history of queries
- - space to run query
- - show values
+ - saved query ✅
+ - history of queries 
+ - space to run query ✅
+ - show values ✅
 
 
  # useful components

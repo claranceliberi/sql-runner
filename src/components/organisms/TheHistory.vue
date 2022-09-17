@@ -1,6 +1,14 @@
 <script lang="ts" setup>
 import TheHeader from "../atoms/TheHeader.vue";
 import TheIcon from "../atoms/TheIcon.vue";
+import moment from "moment";
+
+type historyType = {
+  query: string;
+  date: string;
+};
+
+const props = defineProps<{ history: historyType[] }>();
 </script>
 
 <template>
@@ -30,5 +38,11 @@ import TheIcon from "../atoms/TheIcon.vue";
       </span>
     </TheHeader>
     <hr class="mt-3 border-primary-600" />
+    <ul>
+      <li v-for="(item, index) in props.history" :key="index" class="py-1 px-2">
+        <p>{{ item.query }}</p>
+        <p class="text-sm opacity-50">{{ moment(item.date).fromNow() }}</p>
+      </li>
+    </ul>
   </div>
 </template>
