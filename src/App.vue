@@ -21,6 +21,7 @@ const isSidebarActive = reactive({
   history: true,
 });
 
+const zoomed = ref(false);
 const query = ref("");
 const results = ref<resultType>();
 const headerValue = ref<Array<keys>>([]);
@@ -94,10 +95,10 @@ function search(query: string) {
     </aside>
     <!-- editor section -->
     <article class="flex-1 py-2 flex-col">
-      <div class="h-1/2 px-4">
+      <div class="px-4" :class="{ 'h-1/2': !zoomed, hidden: zoomed }">
         <div class="flex justify-between">
           <div
-            class="bg-primary-300 py-2 px-4 rounded-t border-primary-600 border-t border-x translate-y-[1px]"
+            class="bg-primary-300 pl-2 pr-4 px-4 rounded-t border-primary-600 border-t border-x translate-y-[1px]"
           >
             <TheHeader>Input</TheHeader>
           </div>
@@ -160,11 +161,56 @@ function search(query: string) {
           ></textarea>
         </div>
       </div>
-      <div class="h-1/2 px-2 border-t-primary-600 border-t-2">
-        <TheHeader>Output</TheHeader>
+      <div
+        class="px-2 border-t-primary-600 border-t-2"
+        :class="{ 'h-1/2': !zoomed, 'h-full': zoomed }"
+      >
+        <div class="flex justify-between items-center pr-4 pt-2">
+          <TheHeader>Output</TheHeader>
+          <button
+            :title="zoomed ? 'Minimize' : 'Maximize'"
+            @click="zoomed = !zoomed"
+          >
+            <svg
+              v-if="!zoomed"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-maximize"
+            >
+              <path
+                d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+              ></path>
+            </svg>
+
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-minimize"
+            >
+              <path
+                d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"
+              ></path>
+            </svg>
+          </button>
+        </div>
         <hr class="mt-3 border-primary-600" />
 
-        <div class="overflow-x-auto h-[90%] relative">
+        <div class="overflow-x-auto h-[88%] relative">
           <table
             class="w-full text-sm text-left text-text h-full overflow-y-auto"
             v-if="results && results.length > 0"
