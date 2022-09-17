@@ -23,6 +23,11 @@ No. | Time | comment
 4 | 273 ms |
 5 | 309 ms |
 
+I also did **lighthouse** 
+
+![image](https://user-images.githubusercontent.com/60586899/190864857-a9834435-6b95-477c-8f93-dbd98b5d3dd6.png)
+
+
 ## Optimization
  - [x] I changed the `RUN` button color to ensure good accessibility   
  - [x] I  added meta `description` to ensure high SEO score
