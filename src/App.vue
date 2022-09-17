@@ -3,6 +3,15 @@ import TheHeader from "./components/atoms/TheHeader.vue";
 import TheIcon from "./components/atoms/TheIcon.vue";
 import TheHistory from "./components/organisms/TheHistory.vue";
 import SavedQueries from "./components/organisms/SavedQueries.vue";
+
+import { database } from "./data";
+
+import { reactive } from "vue";
+
+const isSidebarActive = reactive({
+  savedQueries: true,
+  history: true,
+});
 </script>
 
 <template>
@@ -10,11 +19,16 @@ import SavedQueries from "./components/organisms/SavedQueries.vue";
   <header class="border-b-primary-600 border-b-2">
     <h2 class="py-4 pl-8 font-bold text-2xl">SQL Runner</h2>
   </header>
-  <main class="flex h-[82%]">
+  <main class="flex h-[85%]">
     <!-- saved section -->
-    <aside class="w-1/6 border-r-primary-600 border-r-2 px-2 py-2 relative">
+    <aside
+      class="border-r-primary-600 border-r-2 px-2 py-2 relative"
+      :class="{ 'w-1/6': isSidebarActive.savedQueries }"
+    >
       <button
         class="rounded border-primary-600 border bg-primary-100 absolute -right-2 top-16"
+        :class="{ 'rotate-180': !isSidebarActive.savedQueries }"
+        @click="isSidebarActive.savedQueries = !isSidebarActive.savedQueries"
       >
         <TheIcon>
           <svg
@@ -33,10 +47,10 @@ import SavedQueries from "./components/organisms/SavedQueries.vue";
           </svg>
         </TheIcon>
       </button>
-      <SavedQueries />
+      <SavedQueries :databases="database" v-if="isSidebarActive.savedQueries" />
     </aside>
     <!-- editor section -->
-    <article class="w-4/6 py-2 flex-col">
+    <article class="flex-1 py-2 flex-col">
       <div class="h-1/2 px-4">
         <div class="flex justify-between">
           <div
@@ -135,9 +149,14 @@ SELECT * FROM WHERE
       </div>
     </article>
     <!-- history section -->
-    <aside class="w-1/6 px-2 py-2 border-l-primary-600 border-l-2 relative">
+    <aside
+      class="px-2 py-2 border-l-primary-600 border-l-2 relative"
+      :class="{ 'w-1/6': isSidebarActive.history }"
+    >
       <button
         class="rounded border-primary-600 border bg-primary-100 absolute -left-3 top-16"
+        :class="{ 'rotate-180': !isSidebarActive.history }"
+        @click="isSidebarActive.history = !isSidebarActive.history"
       >
         <TheIcon>
           <svg
@@ -156,12 +175,12 @@ SELECT * FROM WHERE
           </svg>
         </TheIcon>
       </button>
-      <TheHistory />
+      <TheHistory v-if="isSidebarActive.history" />
     </aside>
   </main>
   <!-- footer -->
   <footer class="border-t-primary-600 border-t-2">
-    <p class="text-center py-4">SQL runner @ 2022</p>
+    <p class="text-center py-2">SQL runner @ 2022</p>
   </footer>
 </template>
 
